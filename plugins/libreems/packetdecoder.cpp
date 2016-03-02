@@ -606,7 +606,7 @@ void PacketDecoder::parsePacket(Packet parsedPacket)
 		{
 			emit unknownPacket(parsedPacket.header,parsedPacket.payload);
 		}
-		if (payloadid == 0x0191)
+		if (payloadid == 0x0191 || payloadid == 0x000F)
 		{
 			//m_lastDatalogUpdateEnabled = true;
 			//m_lastDatalogTime = QDateTime::currentMSecsSinceEpoch();
