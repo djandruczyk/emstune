@@ -4,6 +4,7 @@
 FirmwareDebugView::FirmwareDebugView(QWidget *parent) : QWidget(parent)
 {
 	ui.setupUi(this);
+	connect(ui.clearPushButton,SIGNAL(clicked()),this,SLOT(clearButtonClicked()));
 }
 
 FirmwareDebugView::~FirmwareDebugView()
