@@ -156,9 +156,23 @@ int main(int argc, char *argv[])
 	//{
 	//	w->connectToEms();
 	//}
+
+	QSettings settings(w->getSettingsFile(),QSettings::IniFormat);
+	settings.beginGroup("plugin");
+	QString savedPluginPath = settings.value("filename","").toString();
+	settings.endGroup();
 	w->show();
-	PluginManager *manager = new PluginManager();
-	manager->show();
-	w->connect(manager,SIGNAL(fileSelected(QString)),w,SLOT(setPlugin(QString)));
+	if (savedPluginPath == "")
+	{
+		PluginManager *manager = new PluginManager();
+		manager->show();
+		w->connect(manager,SIGNAL(fileSelected(QString)),w,SLOT(setPlugin(QString)));
+	}
+	else
+	{
+		w->setPlugin(savedPluginPath);
+	}
+
+
 	return a.exec();
 }

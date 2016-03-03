@@ -89,6 +89,7 @@ public:
 	void setDevice(QString dev);
 
 	void connectToEms();
+	QString getSettingsFile() { return m_settingsFile; }
 private:
 	void closeEvent(QCloseEvent *evt);
 	void loadWizards(QString dir);
@@ -219,6 +220,7 @@ private slots:
 	void menu_settingsClicked();
 	void menu_connectClicked();
 	void menu_aboutClicked();
+	void menu_editPluginManager();
 	void menu_enableDatalogsClicked();
 	void menu_disableDatalogsClicked();
 	void interrogateProgressViewCancelClicked();

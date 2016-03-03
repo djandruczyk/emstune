@@ -64,6 +64,7 @@
      <string>&amp;Edit</string>
     </property>
     <addaction name="actionSettings"/>
+    <addaction name="actionPlugin_Selection"/>
     <addaction name="actionEnable_Datalogs"/>
     <addaction name="actionDisable_Datalog_Stream"/>
    </widget>
@@ -220,6 +221,11 @@
   <action name="actionFirmware_Debug">
    <property name="text">
     <string>Firmware Debug</string>
+   </property>
+  </action>
+  <action name="actionPlugin_Selection">
+   <property name="text">
+    <string>Plugin Selection</string>
    </property>
   </action>
  </widget>

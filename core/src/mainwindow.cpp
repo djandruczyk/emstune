@@ -35,6 +35,7 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
+#include "pluginmanager.h"
 #define define2string_p(x) #x
 #define define2string(x) define2string_p(x)
 
@@ -192,6 +193,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	emsinfo.emstudioHash = define2string(GIT_HASH);
 	ui.actionDisconnect->setEnabled(false);
 	connect(ui.actionSettings,SIGNAL(triggered()),this,SLOT(menu_settingsClicked()));
+	connect(ui.actionPlugin_Selection,SIGNAL(triggered()),this,SLOT(menu_editPluginManager()));
 	connect(ui.actionConnect,SIGNAL(triggered()),this,SLOT(menu_connectClicked()));
 	connect(ui.actionDisconnect,SIGNAL(triggered()),this,SLOT(menu_disconnectClicked()));
 	connect(ui.actionEMS_Info,SIGNAL(triggered()),this,SLOT(menu_windows_EmsInfoClicked()));
@@ -728,6 +730,15 @@ void MainWindow::emsCommsDisconnected()
 void MainWindow::setPlugin(QString plugin)
 {
 	m_pluginFileName = plugin;
+	QSettings settings(getSettingsFile(),QSettings::IniFormat);
+	settings.beginGroup("plugin");
+	QString savedPluginPath = settings.value("filename","").toString();
+	if (savedPluginPath != m_pluginFileName)
+	{
+		settings.setValue("filename",m_pluginFileName);
+	}
+	settings.endGroup();
+	settings.sync();
 	if (emsComms)
 	{
 	emsComms->stop();
@@ -1083,6 +1094,13 @@ void MainWindow::menu_settingsClicked()
 	win->setGeometry(settings->geometry());
 	win->show();
 	settings->show();
+}
+void MainWindow::menu_editPluginManager()
+{
+	PluginManager *manager = new PluginManager();
+	manager->setAttribute(Qt::WA_DeleteOnClose,true);
+	connect(manager,SIGNAL(fileSelected(QString)),this,SLOT(setPlugin(QString)));
+	manager->show();
 }
 
 void MainWindow::menu_connectClicked()
