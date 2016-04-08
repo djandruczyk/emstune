@@ -87,7 +87,6 @@ public:
 	QString desc;
 	double multiplier;
 	double adder;
-	QString trasnfer;
 	QString flags;
 	QString suffix;
 	bool valid;

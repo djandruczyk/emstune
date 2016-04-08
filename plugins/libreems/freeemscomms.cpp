@@ -1871,7 +1871,6 @@ void FreeEmsComms::fieldDescriptor(QString json)
 		QString desc = itemmap.value("description").toString();
 		double mult = itemmap.value("multiplier").toString().toDouble();
 		double adder = itemmap.value("adder").toString().toDouble();
-		QString transfer = itemmap.value("transfer_function").toString();
 		QString flags = itemmap.value("flags").toString();
 		QString suffix = itemmap.value("suffix").toString();
 
@@ -1884,7 +1883,6 @@ void FreeEmsComms::fieldDescriptor(QString json)
 		meta.desc = desc;
 		meta.multiplier = mult;
 		meta.adder = adder;
-		meta.trasnfer = transfer;
 		meta.flags = flags;
 		meta.suffix = suffix;
 		meta.valid = true;
@@ -1908,15 +1906,40 @@ void FreeEmsComms::tableDescriptor(QString json)
 	QJsonArray descriptorlist = toplevelobject.value("descriptor").toArray();
 	for (int i=0;i<descriptorlist.size();i++)
 	{
+		int id = 0;
+		int format_id = 0;
+		int xAxis_id = 0;
+		int yAxis_id = 0;
+		int zAxis_id = 0;
+
 		QJsonObject itemmap = descriptorlist.at(i).toObject();
-		int id = itemmap.value("id").toString().toInt();
-		//int locid = itemmap.value("locationId").toInt();
 		QString name = itemmap.value("name").toString();
 		QString desc = itemmap.value("description").toString();
-		int format_id = itemmap.value("format_id").toString().toInt();
-		int xAxis_id = itemmap.value("xAxisID").toString().toInt();
-		int yAxis_id = itemmap.value("yAxisID").toString().toInt();
-		int zAxis_id = itemmap.value("lookupID").toString().toInt();
+		if (itemmap.value("id").isString()) {
+			id = itemmap.value("id").toString().toInt();
+		} else {
+			id = itemmap.value("id").toInt();
+		}
+		if (itemmap.value("format_id").isString()) {
+			format_id = itemmap.value("format_id").toString().toInt();
+		} else {
+			format_id = itemmap.value("format_id").toInt();
+		}
+		if (itemmap.value("xAxisID").isString()) {
+			xAxis_id = itemmap.value("xAxisID").toString().toInt();
+		} else {
+			xAxis_id = itemmap.value("xAxisID").toInt();
+		}
+		if (itemmap.value("yAxisID").isString()) {
+			yAxis_id = itemmap.value("yAxisID").toString().toInt();
+		} else {
+			yAxis_id = itemmap.value("yAxisID").toInt();
+		}
+		if (itemmap.value("lookupID").isString()) {
+			zAxis_id = itemmap.value("lookupID").toString().toInt();
+		} else {
+			zAxis_id = itemmap.value("lookupID").toInt();
+		}
 
 		TableMeta meta;
 		meta.id = id;
